@@ -1,0 +1,30 @@
+version: '3.5'
+
+networks:
+  traefik:
+    name: traefik
+
+services:
+  traefik:
+    image: traefik:2.2
+    command:
+      - --api.dashboard=true
+      - --api.debug=true
+      - --providers.docker=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - --entrypoints.websecure.address=:443
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      traefik.http.routers.api.rule: Host(`${TRAEFIK_DOMAIN:-traefik.local.apidb.org}`)
+      traefik.http.routers.api.entrypoints: websecure
+      traefik.http.routers.api.service: api@internal
+      traefik.http.routers.api.tls: true
+    networks:
+      - traefik
