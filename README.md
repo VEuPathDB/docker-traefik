@@ -33,7 +33,8 @@ networks:
 ```
 
 ### Notes
-- By default, Traefik will expose the dashboard using the domain: `traefik.local.apidb.org`
+- By default, Traefik will expose the dashboard here: https://traefik.local.apidb.org:8443/dashboard/#/
+- `*.local.apidb.org` should resolve to `127.0.0.1` otherwise add an entry in your hosts file to resolve locally
 
 ## License
 
