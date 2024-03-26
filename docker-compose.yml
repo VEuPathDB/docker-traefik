@@ -3,6 +3,7 @@ version: '3.5'
 networks:
   traefik:
     name: traefik
+    external: true
 
 services:
   traefik:
